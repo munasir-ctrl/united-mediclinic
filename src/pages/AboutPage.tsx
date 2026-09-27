@@ -60,7 +60,7 @@ export default function AboutPage() {
             <Reveal>
               <div className="rounded-3xl overflow-hidden shadow-soft-lg border border-ink-200/60 aspect-[5/4] bg-white">
                 <img
-                  src="/clinic-7.png"
+                  src="/clinic-7  .png"
                   alt="United Mediclinic — modern clinic environment"
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                 />
