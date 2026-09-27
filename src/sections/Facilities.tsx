@@ -27,6 +27,8 @@ export default function Facilities() {
       ? galleryImages
       : galleryImages.filter((img) => img.category === activeCategory);
 
+  const activeImage = galleryImages.find((g) => g.id === lightbox);
+
   return (
     <section id="facilities" className="py-20 lg:py-30 bg-white">
       <div className="container-wide">
@@ -67,27 +69,38 @@ export default function Facilities() {
 
           {/* Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-5">
-            {filtered.map((img, i) => (
-              <motion.button
-                key={img.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, ease, delay: i * 0.05 }}
-                onClick={() => setLightbox(img.id)}
-                className={`group relative overflow-hidden rounded-2xl border border-ink-200/60 ${
-                  i === 0 || i === 3 ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'
-                }`}
-                aria-label={`View ${img.alt}`}
-              >
-                <ImagePlaceholder alt={img.alt} aspect="aspect-square" className="w-full h-full" />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <div>
-                    <span className="text-xs text-white/70 font-medium">{img.category}</span>
-                    <p className="text-sm text-white font-semibold">{img.alt}</p>
+            {filtered.map((img, i) => {
+              const isLarge = i === 0 || i === 3;
+              return (
+                <motion.button
+                  key={img.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, ease, delay: i * 0.05 }}
+                  onClick={() => setLightbox(img.id)}
+                  className={`group relative overflow-hidden rounded-2xl border border-ink-200/60 bg-ink-100 ${
+                    isLarge ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'
+                  }`}
+                  aria-label={`View ${img.alt}`}
+                >
+                  {img.imageUrl ? (
+                    <img
+                      src={img.imageUrl}
+                      alt={img.alt}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <ImagePlaceholder alt={img.alt} aspect="aspect-square" className="w-full h-full" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <div>
+                      <span className="text-xs text-white/70 font-medium">{img.category}</span>
+                      <p className="text-sm text-white font-semibold">{img.alt}</p>
+                    </div>
                   </div>
-                </div>
-              </motion.button>
-            ))}
+                </motion.button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -99,18 +112,32 @@ export default function Facilities() {
           onClick={() => setLightbox(null)}
         >
           <button
-            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
             onClick={() => setLightbox(null)}
             aria-label="Close gallery"
           >
             <X className="w-5 h-5" />
           </button>
-          <div className="max-w-3xl w-full" onClick={(e) => e.stopPropagation()}>
-            <ImagePlaceholder
-              alt={galleryImages.find((g) => g.id === lightbox)?.alt ?? 'Gallery image'}
-              aspect="aspect-[4/3]"
-              className="rounded-2xl"
-            />
+          <div className="max-w-3xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            {activeImage?.imageUrl ? (
+              <div className="w-full max-h-[80vh] overflow-hidden flex items-center justify-center bg-ink-900">
+                <img
+                  src={activeImage.imageUrl}
+                  alt={activeImage.alt}
+                  className="max-w-full max-h-[80vh] object-contain"
+                />
+              </div>
+            ) : (
+              <ImagePlaceholder
+                alt={activeImage?.alt ?? 'Gallery image'}
+                aspect="aspect-[4/3]"
+                className="rounded-2xl"
+              />
+            )}
+            <div className="p-4 bg-white border-t border-ink-100">
+              <span className="text-xs text-brand-600 font-semibold uppercase tracking-wider">{activeImage?.category}</span>
+              <p className="text-sm text-ink-900 font-medium mt-0.5">{activeImage?.alt}</p>
+            </div>
           </div>
         </div>
       )}

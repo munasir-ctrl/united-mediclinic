@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, HeartPulse, UserRound, Eye, Activity } from 'lucide-react';
 import Reveal from '@/components/Reveal';
-import ImagePlaceholder from '@/components/ImagePlaceholder';
 import SectionHeading from '@/components/SectionHeading';
 
 const values = [
@@ -22,11 +21,11 @@ export default function About() {
           {/* Image side */}
           <Reveal className="lg:col-span-5 relative">
             <div className="relative">
-              <div className="rounded-3xl overflow-hidden shadow-soft-lg border border-ink-200/60">
-                <ImagePlaceholder
+              <div className="rounded-3xl overflow-hidden shadow-soft-lg border border-ink-200/60 aspect-[4/5] bg-white">
+                <img
+                  src="/clinic-8.jpeg"
                   alt="United Mediclinic — modern clinic environment"
-                  aspect="aspect-[4/5]"
-                  label="Our Clinic"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                 />
               </div>
               {/* Accent shape */}

@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { Phone, ArrowRight, Calendar, UserRound } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { clinicConfig } from '@/data/clinicConfig';
-import ImagePlaceholder from '@/components/ImagePlaceholder';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -116,11 +115,11 @@ export default function Hero() {
           >
             <div className="relative">
               {/* Main image */}
-              <div className="relative rounded-3xl overflow-hidden shadow-soft-xl border border-white/40">
-                <ImagePlaceholder
+              <div className="relative rounded-3xl overflow-hidden shadow-soft-xl border border-white/40 aspect-[4/5] lg:aspect-[5/6] bg-white">
+                <img
+                  src="/clinic-1.jpeg"
                   alt="Doctor consultation at United Mediclinic"
-                  aspect="aspect-[4/5] lg:aspect-[5/6]"
-                  label="Clinic"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                 />
               </div>
 
@@ -129,7 +128,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
-                className="absolute -bottom-4 -left-2 sm:-left-6 glass rounded-2xl p-4 shadow-soft-lg border border-white/60 w-44"
+                className="absolute -bottom-4 -left-2 sm:-left-6 glass rounded-2xl p-4 shadow-soft-lg border border-white/60 w-44 z-10"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-teal-500 flex items-center justify-center shrink-0">
@@ -149,7 +148,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1 }}
-                className="absolute -top-3 -right-2 sm:-right-5 glass rounded-2xl px-4 py-3 shadow-soft-lg border border-white/60"
+                className="absolute -top-3 -right-2 sm:-right-5 glass rounded-2xl px-4 py-3 shadow-soft-lg border border-white/60 z-10"
               >
                 <p className="text-2xl font-display font-extrabold text-brand-700">4</p>
                 <p className="text-xs text-ink-500 font-medium">Specialities</p>

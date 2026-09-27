@@ -2,12 +2,9 @@ import { motion } from 'framer-motion';
 import SEO from '@/components/SEO';
 import Reveal from '@/components/Reveal';
 import SectionHeading from '@/components/SectionHeading';
-import ImagePlaceholder from '@/components/ImagePlaceholder';
 import ButtonLink from '@/components/ButtonLink';
 import { HeartPulse, UserRound, Eye, Activity, ShieldCheck, Users, Home, CalendarCheck } from 'lucide-react';
 import { breadcrumbSchema } from '@/data/navigation';
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 
 const values = [
   { icon: UserRound, title: 'Personalised Attention', desc: 'Every patient receives care tailored to their individual needs and circumstances.' },
@@ -61,11 +58,11 @@ export default function AboutPage() {
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <Reveal>
-              <div className="rounded-3xl overflow-hidden shadow-soft-lg border border-ink-200/60">
-                <ImagePlaceholder
+              <div className="rounded-3xl overflow-hidden shadow-soft-lg border border-ink-200/60 aspect-[5/4] bg-white">
+                <img
+                  src="/clinic-7.png"
                   alt="United Mediclinic — modern clinic environment"
-                  aspect="aspect-[5/4]"
-                  label="Our Clinic"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                 />
               </div>
             </Reveal>

@@ -19,6 +19,8 @@ export default function GalleryPage() {
       ? galleryImages
       : galleryImages.filter((img) => img.category === activeCategory);
 
+  const activeImage = galleryImages.find((g) => g.id === lightbox);
+
   return (
     <>
       <SEO
@@ -69,29 +71,42 @@ export default function GalleryPage() {
 
           {/* Masonry-style grid */}
           <div className="columns-2 lg:columns-3 gap-4 [&>*]:mb-4">
-            {filtered.map((img, i) => (
-              <motion.button
-                key={img.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                onClick={() => setLightbox(img.id)}
-                className="group relative w-full overflow-hidden rounded-2xl border border-ink-200/60 break-inside-avoid"
-                aria-label={`View ${img.alt}`}
-              >
-                <ImagePlaceholder
-                  alt={img.alt}
-                  aspect={i % 3 === 0 ? 'aspect-[3/4]' : i % 3 === 1 ? 'aspect-square' : 'aspect-[4/3]'}
-                  className="w-full"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <div>
-                    <span className="text-xs text-white/70 font-medium">{img.category}</span>
-                    <p className="text-sm text-white font-semibold">{img.alt}</p>
+            {filtered.map((img, i) => {
+              const aspectClass = i % 3 === 0 ? 'aspect-[3/4]' : i % 3 === 1 ? 'aspect-square' : 'aspect-[4/3]';
+              return (
+                <motion.button
+                  key={img.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  onClick={() => setLightbox(img.id)}
+                  className="group relative w-full overflow-hidden rounded-2xl border border-ink-200/60 break-inside-avoid bg-white"
+                  aria-label={`View ${img.alt}`}
+                >
+                  {img.imageUrl ? (
+                    <div className={`w-full ${aspectClass} overflow-hidden`}>
+                      <img
+                        src={img.imageUrl}
+                        alt={img.alt}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  ) : (
+                    <ImagePlaceholder
+                      alt={img.alt}
+                      aspect={aspectClass}
+                      className="w-full"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <div>
+                      <span className="text-xs text-white/70 font-medium">{img.category}</span>
+                      <p className="text-sm text-white font-semibold">{img.alt}</p>
+                    </div>
                   </div>
-                </div>
-              </motion.button>
-            ))}
+                </motion.button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -107,7 +122,7 @@ export default function GalleryPage() {
             onClick={() => setLightbox(null)}
           >
             <button
-              className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+              className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
               onClick={() => setLightbox(null)}
               aria-label="Close"
             >
@@ -117,14 +132,28 @@ export default function GalleryPage() {
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
-              className="max-w-3xl w-full"
+              className="max-w-3xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <ImagePlaceholder
-                alt={galleryImages.find((g) => g.id === lightbox)?.alt ?? 'Gallery image'}
-                aspect="aspect-[4/3]"
-                className="rounded-2xl"
-              />
+              {activeImage?.imageUrl ? (
+                <div className="w-full max-h-[80vh] overflow-hidden flex items-center justify-center bg-ink-900">
+                  <img
+                    src={activeImage.imageUrl}
+                    alt={activeImage.alt}
+                    className="max-w-full max-h-[80vh] object-contain"
+                  />
+                </div>
+              ) : (
+                <ImagePlaceholder
+                  alt={activeImage?.alt ?? 'Gallery image'}
+                  aspect="aspect-[4/3]"
+                  className="rounded-2xl"
+                />
+              )}
+              <div className="p-4 bg-white border-t border-ink-100">
+                <span className="text-xs text-brand-600 font-semibold uppercase tracking-wider">{activeImage?.category}</span>
+                <p className="text-sm text-ink-900 font-medium mt-0.5">{activeImage?.alt}</p>
+              </div>
             </motion.div>
           </motion.div>
         )}

@@ -6,13 +6,13 @@ interface LogoProps {
   variant?: 'default' | 'light';
 }
 
-export function LogoMark({ className = 'h-24 w-auto' }: { className?: string }) {
+export function LogoMark({ className = 'h-16 w-auto' }: { className?: string }) {
   return (
-    <div className="overflow-hidden flex items-center h-16 my-auto">
+    <div className="flex items-center my-auto">
       <img
         src="/logo-united-mediclinic.png"
         alt="United Mediclinic Logo"
-        className={`object-contain h-36 -my-10 -ml-4 ${className}`}
+        className={`object-contain h-16 w-auto ${className}`}
       />
     </div>
   );

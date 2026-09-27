@@ -1,41 +1,53 @@
-import SEO from '@/components/SEO';
-import Reveal from '@/components/Reveal';
-import Facilities from '@/sections/Facilities';
+import { motion } from 'framer-motion';
+import { facilities } from '@/data/content';
 import SectionHeading from '@/components/SectionHeading';
-import { breadcrumbSchema } from '@/data/navigation';
 
-export default function FacilitiesPage() {
+const ease = [0.22, 1, 0.36, 1] as const;
+
+export default function Facilities() {
   return (
-    <>
-      <SEO
-        title="Facilities"
-        description="Explore the facilities at United Mediclinic. A modern, welcoming environment designed for patient comfort and quality care."
-        path="/facilities"
-        jsonLd={breadcrumbSchema([
-          { name: 'Home', path: '/' },
-          { name: 'Facilities', path: '/facilities' },
-        ])}
-      />
+    <section className="py-20 lg:py-30 bg-white">
+      <div className="container-wide">
+        <SectionHeading
+          eyebrow="Our Facilities"
+          title="Designed for Your Comfort & Care"
+          subtitle="Explore our modern clinic environment equipped with advanced medical technology and comfortable spaces."
+          align="center"
+        />
 
-      <section className="bg-hero-radial pt-16 lg:pt-24 pb-12">
-        <div className="container-wide">
-          <Reveal>
-            <span className="eyebrow flex items-center gap-2">
-              <span className="w-8 h-px bg-brand-500" />
-              Our Facilities
-            </span>
-            <h1 className="text-display-xl font-display font-extrabold text-ink-900 mt-5 text-balance">
-              A Modern, Welcoming Environment
-            </h1>
-            <p className="text-lg text-ink-500 mt-5 max-w-2xl leading-relaxed">
-              Designed for patient comfort and quality care. Explore our clinic through the gallery
-              below.
-            </p>
-          </Reveal>
+        <div className="grid md:grid-cols-3 gap-8 mt-14">
+          {facilities.map((facility, i) => (
+            <motion.div
+              key={facility.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease, delay: i * 0.1 }}
+              className="group rounded-3xl overflow-hidden border border-ink-200/60 bg-white shadow-soft hover:shadow-soft-lg transition-all duration-300 flex flex-col"
+            >
+              <div className="aspect-[4/3] w-full overflow-hidden bg-ink-100 relative">
+                {facility.imageUrl ? (
+                  <img
+                    src={facility.imageUrl}
+                    alt={facility.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-ink-400 text-sm">
+                    Image coming soon
+                  </div>
+                )}
+              </div>
+              <div className="p-6 flex flex-col flex-grow justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-ink-900">{facility.name}</h3>
+                  <p className="text-sm text-ink-500 mt-2 leading-relaxed">{facility.description}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </section>
-
-      <Facilities />
-    </>
+      </div>
+    </section>
   );
 }
