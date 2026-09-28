@@ -65,7 +65,7 @@ export const doctors: Doctor[] = [
       'Patient Counselling & Health Education',
     ],
     bio: 'Dr. Aafiath Najmeen N is a Unani physician and Hijama practitioner with over two years of experience. She provides traditional Unani medical care including regimental therapy, Hijama (cupping therapy), and lifestyle counselling, alongside the management of common medical conditions.',
-    photoUrl: '/Aafiath.jpeg',
+    photoUrl: '/Aafiath.jpg',
     active: true,
     sortOrder: 2,
   },
@@ -95,7 +95,7 @@ export const doctors: Doctor[] = [
     active: true,
     sortOrder: 3,
   },
-  {
+{
     id: 'dr-meera-benny',
     name: 'Dr. Meera Benny',
     slug: 'dr-meera-benny',
@@ -111,9 +111,9 @@ export const doctors: Doctor[] = [
     bio: 'Dr. Meera Benny is an ENT Specialist providing consultation and management of ear, nose, and throat conditions. Her practice includes endoscopic evaluation and minor ENT procedures.',
     photoUrl: '/Meera.jpeg',
     active: true,
-    sortOrder: 4,
+    sortOrder: 4, 
   },
-];
+];  
 
 export function getDoctorBySlug(slug: string): Doctor | undefined {
   return doctors.find((d) => d.slug === slug);
